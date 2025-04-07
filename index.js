@@ -55,11 +55,21 @@ app.get("/categories", async(req,res) => {
     }
 })
 
-app.get("/categories/:categoryId" , async(req,res) => {
+app.get("/wishlist/:productId" , async(req,res) => {
     try{
         const categoryId = req.params.categoryId
-        const category = await Categories.findById(categoryId)
-        res.json({data: {category}})
+        const product = await Products.findById(categoryId)
+        res.json({data: {product}})
+    }catch(error){
+        res.status(500).json({message: "Error in getting the data"})
+    }
+})
+
+app.get("/cart/:productId" , async(req,res) => {
+    try{
+        const categoryId = req.params.categoryId
+        const product = await Products.findById(categoryId)
+        res.json({data: {product}})
     }catch(error){
         res.status(500).json({message: "Error in getting the data"})
     }
