@@ -4,6 +4,9 @@ const app = express()
 const cors = require('cors')
 const Products = require('./models/products.models')
 const Categories = require('./models/category.models')
+const Wishlist = require('./models/wishlist.model')
+const Cart = require('./models/cart.model')
+
 app.use(express.json())
 
 const corsOption = {
@@ -55,6 +58,15 @@ app.get("/categories", async(req,res) => {
     }
 })
 
+app.get("/wishlist", async(req,res) => {
+    try{
+        const wishlist = await Wishlist.find()
+        res.status(201).json({data: {wishlist}})
+    }catch(error){
+        res.status(500).json({message: "Error in getting the data"})
+    }
+})
+
 app.get("/wishlist/:productId" , async(req,res) => {
     try{
         const productId = req.params.productId
@@ -65,6 +77,15 @@ app.get("/wishlist/:productId" , async(req,res) => {
     }
 })
 
+
+app.get("/cart", async(req,res) => {
+    try{
+        const cart = await Cart.find()
+        res.status(201).json({data: {cart}})
+    }catch(error){
+        res.status(500).json({message: "Error in getting the product"})
+    }
+})
 app.get("/cart/:productId" , async(req,res) => {
     try{
         const productId = req.params.productId
