@@ -77,6 +77,16 @@ app.get("/wishlist/:productId" , async(req,res) => {
     }
 })
 
+app.post("/wishlist" , async(req,res) => {
+    const {name , price , category, rating} = req.body
+    try{
+        const product= new Wishlist({name , price, rating , category})
+        await product.save()
+        res.status(201).json(product)
+    }catch(error){
+        res.status(500).json({message: "Error in creating the product"})
+    }
+})
 
 app.get("/cart", async(req,res) => {
     try{
@@ -96,6 +106,16 @@ app.get("/cart/:productId" , async(req,res) => {
     }
 })
 
+app.post("/cart" , async(req,res) => {
+    const {name , price , category, rating , quantity} = req.body
+    try{
+        const product= new Cart({name , price, rating , category , quantity})
+        await product.save()
+        res.status(201).json(product)
+    }catch(error){
+        res.status(500).json({message: "Error in creating the product"})
+    }
+})
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
