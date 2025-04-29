@@ -128,8 +128,9 @@ app.get("/address", async(req,res) => {
 })
 
 app.post("/address" ,async(req,res) => {
+    const {fullName , streetAddress , city , state , postalCode , country , phone} = req.body
     try{
-        const address = new Products(req.body)
+        const address = new Products({fullName , streetAddress , city , state , postalCode , country , phone})
         await address.save()
         res.status(201).json(address)
     }catch(error){
