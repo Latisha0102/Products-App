@@ -6,6 +6,7 @@ const Products = require('./models/products.models')
 const Categories = require('./models/category.models')
 const Wishlist = require('./models/wishlist.model')
 const Cart = require('./models/cart.model')
+const Address = require('./models/address.model')
 
 app.use(express.json())
 
@@ -116,6 +117,53 @@ app.post("/cart" , async(req,res) => {
         res.status(500).json({message: "Error in creating the product"})
     }
 })
+
+app.get("/address", async(req,res) => {
+    try{
+        const address = await Address.find()
+        res.status(201).json({data: {address}})
+    }catch(error){
+        res.status(500).json({message: "Error in getting the address"})
+    }
+})
+
+app.post("/address" ,async(req,res) => {
+    try{
+        const address = new Products(req.body)
+        await address.save()
+        res.status(201).json(address)
+    }catch(error){
+        res.status(500).json({message: "Error in creating the product"})
+    }
+})
+
+app.get("/address/:addressId" , async(req,res) => {
+    try{
+        const addressId = req.params.addressId
+        const address = await Address.findById(addressId)
+        res.json({data: {address}})
+    }catch(error){
+        res.status(500).json({message: "Error in getting the address"})
+    }
+})
+
+async function deleteAddress(addressId){
+    try{
+        const deletedAddress = await Address.findByIdAndDelete(addressId)
+        return deletedAddress
+    }catch(error){
+        console.log("Error in deleting address")
+    }
+}
+app.delete("/address/:addressId" , async(req,res) =>{
+    try{
+        const deletedAddress = await deleteAddress(req.params.addressId)
+        res.status(200).json({message: "Successfully deleted"})
+    }catch(error){
+        res.status(500).json({message: "Failed to delte address"})
+    }
+})
+
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
