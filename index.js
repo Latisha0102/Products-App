@@ -165,7 +165,29 @@ app.delete("/address/:addressId" , async(req,res) =>{
     }
 })
 
+async function updateAddress(addressId , dataToUpdate){
+    try{
+        const updatedAddress = await Address.findByIdAndUpdate(addressId , dataToUpdate, {
+            new: true , 
 
+        })
+        return updatedAddress
+    }catch(error){
+        console.log("Error in updating Address" , error)
+    }
+}
+app.put("/address/edit/:addressId" , async ( req, res) => {
+    try{
+  const editedAddress = await updateAddress(req.params.addressId , req.body)
+  if(editedAddress){
+    res.status(200).json({message: "Address updated successfully"})
+  }else{
+    res.status(404).json({error: "Address not found"})
+  }
+    }catch(error){
+res.status(500).json({error: "failed to update address"})
+    }
+})
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
     console.log("Server is running");
