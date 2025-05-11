@@ -7,7 +7,7 @@ const Categories = require('./models/category.models')
 const Wishlist = require('./models/wishlist.model')
 const Cart = require('./models/cart.model')
 const Address = require('./models/address.model')
-
+const Users = require('./models/user.model')
 app.use(express.json())
 
 const corsOption = {
@@ -186,6 +186,16 @@ app.put("/address/edit/:addressId" , async ( req, res) => {
   }
     }catch(error){
 res.status(500).json({error: "failed to update address"})
+    }
+})
+
+app.get("/users" ,async(req,res) => {
+    try{
+        const users = await Users.find()
+
+        res.status(201).json({data: {users}})
+    }catch(error){
+        res.status(500).json({message: "Error in getting the address"})
     }
 })
 const PORT = process.env.PORT || 3000
