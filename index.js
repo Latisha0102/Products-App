@@ -195,7 +195,7 @@ app.get("/users" ,async(req,res) => {
 
         res.status(201).json({data: {users}})
     }catch(error){
-        res.status(500).json({message: "Error in getting the address"})
+        res.status(500).json({message: "Error in getting users"})
     }
 })
 const PORT = process.env.PORT || 3000

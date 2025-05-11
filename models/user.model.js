@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-//const { type } = require("os")
+
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -42,6 +42,6 @@ const userSchema = new mongoose.Schema({
 }]
 })
 
-const Users = mongoose.model('Products',userSchema)
+const Users = mongoose.model('Users',userSchema)
 
 module.exports = Users
