@@ -89,6 +89,16 @@ app.post("/wishlist" , async(req,res) => {
     }
 })
 
+app.delete("/wishlist/:productId" , async(req,res) => {
+    try{
+        const productId = req.params.productId
+        const product = await Wishlist.findByIdAndDelete(productId)
+        res.status(200).json({message: "deleted successfully" , data: product})
+    }catch(error){
+        res.status(500).json({message: "Error in deleting the data"})
+    }
+})
+
 app.get("/cart", async(req,res) => {
     try{
         const cart = await Cart.find()
@@ -115,6 +125,16 @@ app.post("/cart" , async(req,res) => {
         res.status(201).json(product)
     }catch(error){
         res.status(500).json({message: "Error in creating the product"})
+    }
+})
+
+app.delete("/cart/:productId" , async(req,res) => {
+    try{
+        const productId = req.params.productId
+        const product = await Cart.findByIdAndDelete(productId)
+        res.status(200).json({data: {product} , message: "Deleted successfully"})
+    }catch(error){
+        res.status(500).json({message: "Error in getting the data"})
     }
 })
 
@@ -200,5 +220,5 @@ app.get("/users" ,async(req,res) => {
 })
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
-    console.log("Server is running");
+    console.log("Server is running" , PORT);
 })
