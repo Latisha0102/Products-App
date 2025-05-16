@@ -220,9 +220,9 @@ app.get("/usersData" ,async(req,res) => {
 })
 
 app.post("/usersData" ,async(req,res) => {
-    const {name, email, phone,password,address: [fullName,streetAddress,city,state,postalCode,country,]} = req.body
+    const {name, email, phone,password,address} = req.body
     try{
-        const userDetails = new Users({name, email, phone,password,address: {fullName,streetAddress,city,state,postalCode,country}})
+        const userDetails = new Users({name, email, phone,password,address})
         await userDetails.save()
         res.status(201).json({data:userDetails, message: "Added Data Successfully"})
     }catch(error){
