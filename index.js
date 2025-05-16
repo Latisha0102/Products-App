@@ -209,13 +209,24 @@ res.status(500).json({error: "failed to update address"})
     }
 })
 
-app.get("/users" ,async(req,res) => {
+app.get("/usersData" ,async(req,res) => {
     try{
         const users = await Users.find()
 
         res.status(201).json({data: {users}})
     }catch(error){
         res.status(500).json({message: "Error in getting users"})
+    }
+})
+
+app.post("/usersData" ,async(req,res) => {
+    const {name, email, phone,password,address: [fullName,streetAddress,city,state,postalCode,country,]} = req.body
+    try{
+        const userDetails = new Users({name, email, phone,password,address: {fullName,streetAddress,city,state,postalCode,country}})
+        await userDetails.save()
+        res.status(201).json({data:userDetails, message: "Added Data Successfully"})
+    }catch(error){
+        res.status(500).json({message: "Error in creating the product"})
     }
 })
 const PORT = process.env.PORT || 3000
